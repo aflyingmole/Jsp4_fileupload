@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/file/upload")
-public class FIleuploadController extends HttpServlet {
+public class FileuploadController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ServletContext application = getServletContext();

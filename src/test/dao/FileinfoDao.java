@@ -66,5 +66,48 @@ public class FileinfoDao {
             JdbcUtil.close(con, pstmt, rs);
         }
     }
+    public Fileinfo select(int filenum) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
+        try {
+            con = JdbcUtil.getCon();
+            String sql = "select * from fileinfo where filenum=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, filenum);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String writer = rs.getString("writer");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                String orgfilename = rs.getString("orgfilename");
+                String savefilename = rs.getString("savefilename");
+                long filesize = rs.getLong("filesize");
+                Fileinfo vo = new Fileinfo(filenum, writer, title, content, orgfilename, savefilename, filesize);
+                return vo;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            JdbcUtil.close(con, pstmt, rs);
+        }
+    }
+    public void delete(int filenum) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        con = JdbcUtil.getCon();
+
+        try {
+            String sql = "delete from fileinfo where filenum=?";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, filenum);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtil.close(con, pstmt, null);
+        }
+    }
 }
