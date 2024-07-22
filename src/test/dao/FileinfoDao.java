@@ -95,17 +95,18 @@ public class FileinfoDao {
             JdbcUtil.close(con, pstmt, rs);
         }
     }
-    public void delete(int filenum) {
+    public int delete(int filenum) {
         Connection con = null;
         PreparedStatement pstmt = null;
-        con = JdbcUtil.getCon();
-
         try {
+            con = JdbcUtil.getCon();
             String sql = "delete from fileinfo where filenum=?";
             pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, filenum);
+            return pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            return -1;
         } finally {
             JdbcUtil.close(con, pstmt, null);
         }
